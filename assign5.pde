@@ -1,5 +1,3 @@
-
-//0529
 PImage title, gameover, gamewin, startNormal, startHovered, restartNormal, restartHovered;
 PImage groundhogIdle, groundhogLeft, groundhogRight, groundhogDown;
 PImage bg, life, cabbage, soilEmpty, clock, caution, sweethome;
@@ -204,13 +202,9 @@ void initClocks(){
     clockX[i] = SOIL_SIZE * floor(random(SOIL_COL_COUNT));
     clockY[i] = SOIL_SIZE * ( i * 4 + floor(random(4)));
     
-  if(cabbageX[i]==clockX[i]){
-    clockX[i] = SOIL_SIZE * floor(random(SOIL_COL_COUNT));
-  }
-   if(cabbageY[i]==clockY[i]){
-     clockY[i] = SOIL_SIZE * ( i * 4 + floor(random(4)));
-  }
-  
+  if(clockX[i]==cabbageX[i]&&clockY[i]==cabbageY[i]){
+      i--; 
+     }
   
   
   
@@ -650,3 +644,4 @@ void keyReleased(){
 		}
 	}
 }
+//0529-2
