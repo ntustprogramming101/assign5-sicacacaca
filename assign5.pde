@@ -203,11 +203,11 @@ void initClocks(){
     clockX[i] = SOIL_SIZE * floor(random(SOIL_COL_COUNT));
     clockY[i] = SOIL_SIZE * ( i * 4 + floor(random(4)));
     
-  
-  
-  if(cabbageX[i]==clockX[i]){clockX[i] = SOIL_SIZE * floor(random(SOIL_COL_COUNT));
+  if(cabbageX[i]==clockX[i]){
+    clockX[i] = SOIL_SIZE * floor(random(SOIL_COL_COUNT));
   }
-   if(cabbageY[i]==clockY[i]){clockY[i] = SOIL_SIZE * floor(random(SOIL_COL_COUNT));
+   if(cabbageY[i]==clockY[i]){
+     clockY[i] = SOIL_SIZE * ( i * 4 + floor(random(4)));
   }
   
   
@@ -320,7 +320,7 @@ void draw() {
 
     image(clock, clockX[i], clockY[i]);
     
-    if (isHit (  playerX, playerY, playerX+SOIL_SIZE , playerY+SOIL_SIZE  ,clockX[i],clockY[i], clockX[i] +  SOIL_SIZE, clockY[i] + SOIL_SIZE)==true){
+    if (isHit (  playerX, playerY, playerX+SOIL_SIZE , playerY+SOIL_SIZE  ,clockX[i],clockY[i], clockX[i] +  SOIL_SIZE, clockY[i] + SOIL_SIZE)){
     clockX[i] = clockY[i] = -1000;
     addTime(CLOCK_BONUS_SECONDS);
   }
