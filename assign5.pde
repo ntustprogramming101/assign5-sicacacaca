@@ -27,7 +27,6 @@ float soldierSpeed = 2f;
 
 final int GAME_INIT_TIMER = 7200;
 int gameTimer = GAME_INIT_TIMER;
-int frames=GAME_INIT_TIMER;
 
 final float CLOCK_BONUS_SECONDS = 15f;
 
@@ -96,7 +95,7 @@ void initGame(){
 
 	// Initialize gameTimer
 	gameTimer = GAME_INIT_TIMER;
-  frames=GAME_INIT_TIMER;
+
 	// Initialize player
 	initPlayer();
 
@@ -205,9 +204,12 @@ void initClocks(){
     clockX[i] = SOIL_SIZE * floor(random(SOIL_COL_COUNT));
     clockY[i] = SOIL_SIZE * ( i * 4 + floor(random(4)));
     
-if(clockX[i]==cabbageX[i]&&clockY[i]==cabbageY[i]){
-      i--; 
-     }
+  if(cabbageX[i]==clockX[i]){
+    clockX[i] = SOIL_SIZE * floor(random(SOIL_COL_COUNT));
+  }
+   if(cabbageY[i]==clockY[i]){
+     clockY[i] = SOIL_SIZE * ( i * 4 + floor(random(4)));
+  }
   
   
   
@@ -473,10 +475,9 @@ void draw() {
 		// Depth UI
 		drawDepthUI();
 
-		// Timer
-		frames-=1;
-    gameTimer = floor(frames*1/60);
-		if(gameTimer <= 0) gameState = GAME_OVER;
+	  // Timer
+    gameTimer --;
+    if(gameTimer <= 0) gameState = GAME_OVER;
 
 		// Time UI - Requirement #4
 		drawTimerUI();
@@ -546,7 +547,7 @@ void drawDepthUI(){
 }
 
 void drawTimerUI(){
-	String timeString = nf(gameTimer/60,2)+":"+nf(gameTimer%60,2); // Requirement #4: Get the mm:ss string using String convertFramesToTimeString(int frames)
+	  String timeString = convertFramesToTimeString(gameTimer);  // Requirement #4: Get the mm:ss string using String convertFramesToTimeString(int frames)
   
 
    
@@ -558,13 +559,13 @@ void drawTimerUI(){
 	text(timeString, 3, height + 3);
 
 	// Actual Time Text
-	color timeTextColor = getTimeTextColor(frames); 		// Requirement #5: Get the correct color using color getTimeTextColor(int frames)
+	color timeTextColor = getTimeTextColor(gameTimer); 		// Requirement #5: Get the correct color using color getTimeTextColor(int frames)
 	fill(timeTextColor);
 	text(timeString, 0, height);
 }
 
 void addTime(float seconds){					// Requirement #2
-frames+=seconds*60;
+gameTimer+=seconds*60;
 }
 
 boolean isHit(float ax, float ay, float aw, float ah, float bx, float by, float bw, float bh){
@@ -576,10 +577,10 @@ return false;
 }}
 
 String convertFramesToTimeString(int frames){	// Requirement #4
-  frames++;
-  gameTimer = floor(frames*60);
+  float mm=int(frames/60/60);
+  float ss=int((frames/60))%60;
+  return (nf(int(mm),2)+":"+nf(int(ss),2));
   
-  return "gameTimer";
 
 
 
@@ -629,7 +630,7 @@ void keyPressed(){
 		}
 	}else{
 		if(key=='t'){
-			frames -= 180;
+			gameTimer -= 180;
 		}
 	}
 }
